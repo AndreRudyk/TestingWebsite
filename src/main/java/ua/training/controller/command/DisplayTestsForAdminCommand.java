@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import ua.training.model.dao.impl.Constants;
 import ua.training.model.entity.Test;
 import ua.training.model.service.TestService;
 
@@ -16,7 +17,7 @@ public class DisplayTestsForAdminCommand implements Command {
 
 		List<Test> tests = service.findAllTests();
 		
-		request.getSession().setAttribute("tests", tests);
+		request.getSession().setAttribute(Constants.TESTS, tests);
 		
 		return "redirect:/admin/all-tests.jsp";
 	}

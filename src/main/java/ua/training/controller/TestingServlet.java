@@ -61,8 +61,7 @@ public class TestingServlet extends HttpServlet{
         commands.put("create-test" , new CreateTestCommand());
         commands.put("add-question", new AddQuestionCommand());
         commands.put("finish-test", new FinishTestCreationCommand());
-        commands.put("finish-test", new FinishTestCreationCommand());
-        commands.put("find-all-tests", new DisplayTestsForAdminCommand());
+        commands.put("find-all-tests", new DisplayTestsCommand());
         commands.put("edit-test", new EditTestCommand());
         commands.put("delete-test", new DeleteTestCommand());
         commands.put("preview-test", new PreviewTestCommand());
@@ -75,8 +74,6 @@ public class TestingServlet extends HttpServlet{
         commands.put("answer-first", new AnswerFirstQuestionCommand());
         commands.put("finish-taking-test", new FinishTakingTestCommand());
         commands.put("display-certificates", new DisplayCertificatesCommand());
-        
-        
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

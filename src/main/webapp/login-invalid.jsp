@@ -9,7 +9,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Testing website</title>
+	<title><fmt:message key="index.title" bundle="${lang}"/></title>
 </head>
 <body>
 	<h1 style="text-align: center">
@@ -20,9 +20,10 @@
 	<form method="post"
 		action="${pageContext.request.contextPath}/serv/login">
 		<table style="margin-left: auto; margin-right: auto">
+			<caption><fmt:message key="loginIvalidMessage" bundle="${lang}"/></caption>
 			<tr>
 				<td style="text-align: right"><label for="username"><fmt:message key="username" bundle="${lang}"/>:</label></td>
-				<td><input type="text" name="username"></td>
+				<td><input type="text" name="username" value="${param.username}"></td>
 			</tr>
 			<tr>
 				<td style="text-align: right"><label for="password"><fmt:message key="password" bundle="${lang}"/>:</label></td>
@@ -31,7 +32,7 @@
 			<tr>
 				<td></td>
 				<td style="text-align: right"><input class="button"
-					type="submit" value="Log in"></td>
+					type="submit" value="<fmt:message key="login.button" bundle="${lang}"/>"></td>
 			</tr>
 			<tr>
 				<td><fmt:message key="no.account" bundle="${lang}"/></td>

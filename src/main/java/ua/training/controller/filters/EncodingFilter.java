@@ -10,6 +10,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 public class EncodingFilter implements Filter {
+	
+	private static final String ENCODING = "UTF-8";
+	private static final String CONTENT_TYPE = "text/html";
 
     public EncodingFilter() {
     	
@@ -21,9 +24,9 @@ public class EncodingFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		response.setContentType("text/html");
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
+		response.setContentType(CONTENT_TYPE);
+		request.setCharacterEncoding(ENCODING);
+		response.setCharacterEncoding(ENCODING);
 		
 		chain.doFilter(request, response);
 		

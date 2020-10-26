@@ -69,7 +69,7 @@ public class UserService {
 					.info("New user \"" + username + "\" was registered successfully!");
 		} catch (Exception e) {
 			LogManager.getLogger(UserService.class).fatal("Failed to register the user");
-			throw new RuntimeException();
+			optUser = Optional.empty();
 		}
 		return optUser;
 	}

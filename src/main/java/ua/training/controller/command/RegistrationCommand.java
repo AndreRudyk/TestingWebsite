@@ -24,12 +24,11 @@ public class RegistrationCommand implements Command {
 		if (userOpt.isPresent()) {
 			User user = userOpt.get();
 			session.setAttribute(Constants.USER, user);
-			session.setAttribute(Constants.ROLE, Constants.USER);		//<--need to delete this
 			LogManager.getLogger(LoginCommand.class).info("New user logged in successfully.");
 			return "redirect:/user/home.jsp";
 		}
     	
-		return "/registration.jsp";
+		return "/registration-username-taken.jsp";
 	}
 
 }

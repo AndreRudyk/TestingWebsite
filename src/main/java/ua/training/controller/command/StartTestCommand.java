@@ -23,7 +23,7 @@ public class StartTestCommand implements Command {
 			request.getSession().setAttribute(Constants.TEST_IN_PROGRESS, test.get());
 			return "/user/start-test.jsp";
 		}
-		return "redirect:/serv/test-not-found.jsp";	//<-- need to create this page
+		return "redirect:/serv/find-all-tests";
 	}
 
 }

@@ -13,6 +13,7 @@ import ua.training.model.service.TestService;
 public class FinishTestCreationCommand implements Command {
 
 	private static final String DOWNLOAD_DIR = File.separator + "WEB-INF" + File.separator + "tests";
+	private static final String DOT_XML = ".xml";
 
 	@Override
 	public String execute(HttpServletRequest request) {
@@ -23,7 +24,7 @@ public class FinishTestCreationCommand implements Command {
 
 		TestService service = new TestService();
 
-		if (request.getParameter(Constants.QUESTION) != null) {
+		if (!request.getParameter(Constants.QUESTION).isEmpty()) {
 			test = service.addQuestion(request);
 		}
 
@@ -32,7 +33,8 @@ public class FinishTestCreationCommand implements Command {
 		ServletContext context = session.getServletContext();
 		String realContextPath = context.getRealPath("");
 		String downloadPath = realContextPath + DOWNLOAD_DIR;
-		String filePath = downloadPath + File.separator + test.getName() + ".xml";
+		System.out.println(test.getName());
+		String filePath = downloadPath + File.separator + test.getName() + DOT_XML;
 		
 		test.setLocation(filePath);
 

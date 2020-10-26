@@ -4,17 +4,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<fmt:requestEncoding value="UTF-8" />
 <fmt:setLocale value="${sessionScope.lang}" />
-<fmt:setBundle basename="first" />
+<fmt:setBundle basename="first" var="lang"/>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Test</title>
+<title><fmt:message key="test" bundle="${lang}"/></title>
 </head>
 <body>
-<h2>Question ${sessionScope.index}</h2>
+<h2><fmt:message key="test.question" bundle="${lang}"/> ${sessionScope.index}</h2>
 <c:set var = "questionText" scope = "session" value = "${sessionScope.question.text}"/>
 <c:set var = "answer1" scope = "page" value = "${sessionScope.question.firstAnswer}"/>
 <c:set var = "answer2" scope = "page" value = "${sessionScope.question.firstAnswer.nextAnswer}"/>
@@ -43,7 +44,7 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td style="text-align: right"><input class="button" type="submit" value="Next"></td>
+				<td style="text-align: right"><input class="button" type="submit" value="<fmt:message key="test.next" bundle="${lang}"/>"></td>
 			</tr>
 		</table>
 	</form>
@@ -51,10 +52,15 @@
 <hr />
 	<form method="get"
 		action="${pageContext.request.contextPath}/user/home.jsp">
-		<input class="button" type="submit" value="Home">
+		<input class="button" type="submit" value="<fmt:message key="home" bundle="${lang}"/>">
 	</form>
 	<br />
-	<a href="${pageContext.request.contextPath}/serv/logout">Logout</a>
+	<a href="?locale=uk">Українська</a>
+	<br />
+	<a href="?locale=en">English</a>
+	<br/>
+	
+	<a href="${pageContext.request.contextPath}/serv/logout"><fmt:message key="logout" bundle="${lang}"/></a>
 
 </body>
 </html>

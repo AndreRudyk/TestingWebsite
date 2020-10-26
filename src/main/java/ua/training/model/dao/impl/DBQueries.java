@@ -56,7 +56,4 @@ public class DBQueries {
 	public static final String DB_PASSWORD = bundle.getString("password");
 	
 	public static final String DB_NAME = bundle.getString("dbName");
-	
-	
-	
 }

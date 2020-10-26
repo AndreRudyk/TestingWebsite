@@ -30,8 +30,10 @@ public class JDBCDAOFactory extends DAOFactory{
 	}
 	
 	private Connection getConnection(){
-		String characterEncoding = "UTF-8";
-		String connectionCollation = "utf8_general_ci";
+		String encoding = "UTF-8";
+		String collation = "utf8_general_ci";
+		String characterEncoding = encoding;
+		String connectionCollation = collation;
 		try {
 			MysqlDataSource dataSource = new MysqlDataSource();
 			dataSource.setUser(DBQueries.DB_USER);

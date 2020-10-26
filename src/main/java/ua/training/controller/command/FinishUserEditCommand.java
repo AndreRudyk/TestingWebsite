@@ -12,7 +12,7 @@ public class FinishUserEditCommand implements Command {
 		
 		service.updateUser(request);
 		
-		return "/admin/u-update-finished.jsp";
+		return "redirect:/admin/u-update-finished.jsp";
 	}
 
 }

@@ -60,18 +60,20 @@ public class TestService {
 		
 		Test test = (Test) session.getAttribute(Constants.TEST);
 		
-		Question question = new Question(request.getParameter(Constants.QUESTION));
+		String questionText = request.getParameter(Constants.QUESTION);
 		
 		Answer[] answers = getAnswers(request);
 		
-		if ((!question.getText().isEmpty()) && answers != null) {
+		if ((!questionText.isEmpty()) && answers != null) {
+			Question question = new Question(questionText);
 			for (Answer answer : answers) {
 				question.addAnswer(answer);
 			}
 			test.addQuestion(question);
 			session.setAttribute("test", test);
+			return test;
 		}
-		return test;
+		return null;
 	}
 	
 	private Answer[] getAnswers (HttpServletRequest request) {
@@ -86,8 +88,7 @@ public class TestService {
 		for (int i = 0; i < ANSWERS.length; i++) {
 			answerText = request.getParameter(ANSWERS[i]);
 			isCorrect = (request.getParameter(ANSWERS_CORRECT[i]) != null);
-			
-			if (answerText != null) {
+			if (!answerText.isEmpty()) {
 				answer = new Answer(answerText, isCorrect);
 				answersList[i] = answer;
 			} else {
@@ -148,6 +149,7 @@ public class TestService {
 	}
 	
 	public void deleteTest(String name) {
+		
 		String location = null;
 		try (TestDAO testDAO = daoFactory.createTestDAO()) {
 			location = testDAO.getLocationAndDelete(name);
@@ -263,5 +265,5 @@ public class TestService {
 		}
 		return test;
 	}
-	
 }
+

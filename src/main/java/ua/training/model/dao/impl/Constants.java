@@ -66,9 +66,13 @@ public class Constants {
 	
 	public static final String LANG = "lang";
 	
+	public static final String UID = "uid";
 	
+	public static final String TESTS = "tests";
 	
+	public static final String USERS = "users";
 	
+	public static final String ADMINS = "admins";
 	
-	
+	public static final String FINISHED_TEST_NAME = "finishedTestName";
 }

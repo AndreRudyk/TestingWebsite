@@ -31,8 +31,8 @@ public class FinishTakingTestCommand implements Command {
 		
 		certificateService.create(user, test, mark);
 		
-		session.setAttribute("mark", mark);
-		session.setAttribute("finishedTestName", test.getName());
+		session.setAttribute(Constants.MARK, mark);
+		session.setAttribute(Constants.FINISHED_TEST_NAME, test.getName());
 		
 		setAttributesToNull(session);
 

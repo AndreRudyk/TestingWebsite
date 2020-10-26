@@ -6,8 +6,6 @@ public class Answer {
 	private boolean correct;
 	private Answer nextAnswer;
 	
-	private Answer() {}
-	
 	public Answer (String text, boolean correct) {
 		this.text = text;
 		this.correct = correct;

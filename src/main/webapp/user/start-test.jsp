@@ -4,8 +4,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
+<fmt:requestEncoding value="UTF-8" />
 <fmt:setLocale value="${sessionScope.lang}" />
-<fmt:setBundle basename="first" />
+<fmt:setBundle basename="first" var="lang"/>
 
 <!DOCTYPE html>
 <html>
@@ -17,17 +18,20 @@
 <body>
 <h2>Test</h2>
 <hr/>
-<p>After you press <b>start</b>, you'll have ${test.time} minutes to complete it.</p>
-<p>You won't be able to go back to skipped questions. So, better not skip them.</p>
-<p>If you don't finish the test in time, only the submitted answers will be counted during the evaluation.</p>
-<p><a href="${pageContext.request.contextPath}/serv/answer-first">Take test</a>
+<fmt:message key="test.startMessageOne" bundle="${lang}"/><b>${test.time}</b><fmt:message key="test.startMessageTwo" bundle="${lang}"/> 
+<p><a href="${pageContext.request.contextPath}/serv/answer-first"><fmt:message key="test.start" bundle="${lang}"/></a>
 	<hr />
 	<form method="get"
-		action="${pageContext.request.contextPath}/admin/home.jsp">
-		<input class="button" type="submit" value="Home">
+		action="${pageContext.request.contextPath}/user/home.jsp">
+		<input class="button" type="submit" value="<fmt:message key="home" bundle="${lang}"/>">
 	</form>
 	<br />
-	<a href="${pageContext.request.contextPath}/serv/logout">Logout</a>
+	<a href="?locale=uk">Українська</a>
+	<br />
+	<a href="?locale=en">English</a>
+	<br/>
+	
+	<a href="${pageContext.request.contextPath}/serv/logout"><fmt:message key="logout" bundle="${lang}"/></a>
 
 </body>
 </html>

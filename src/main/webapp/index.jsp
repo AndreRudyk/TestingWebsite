@@ -9,7 +9,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Testing website</title>
+	<title><fmt:message key="index.title" bundle="${lang}"/></title>
 </head>
 <body>
 	<h1 style="text-align: center">
@@ -31,7 +31,7 @@
 			<tr>
 				<td></td>
 				<td style="text-align: right"><input class="button"
-					type="submit" value="Log in"></td>
+					type="submit" value="<fmt:message key="login.button" bundle="${lang}"/>"></td>
 			</tr>
 			<tr>
 				<td><fmt:message key="no.account" bundle="${lang}"/></td>

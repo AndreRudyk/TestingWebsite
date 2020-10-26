@@ -43,7 +43,6 @@ public class CertificateService {
 			LogManager.getLogger(CertificateService.class).fatal("Couldn't retrieve certificates. " + e.getMessage());
 			throw new RuntimeException();
 		}
-		
 	}
 	
 }

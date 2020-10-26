@@ -4,17 +4,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<fmt:requestEncoding value="UTF-8" />
 <fmt:setLocale value="${sessionScope.lang}" />
-<fmt:setBundle basename="first" />
+<fmt:setBundle basename="first" var="lang"/>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>All test</title>
+<title><fmt:message key="test.preview.title" bundle="${lang}"/></title>
 </head>
 <body>
-<h2>Tests</h2>
+<h2>${sessionScope.test.name}</h2>
 
 	<ol>
 			<c:forEach items="${sessionScope.test.questions}" var="question">
@@ -34,10 +35,15 @@
 <hr />
 	<form method="get"
 		action="${pageContext.request.contextPath}/admin/home.jsp">
-		<input class="button" type="submit" value="Home">
+		<input class="button" type="submit" value="<fmt:message key="home" bundle="${lang}"/>">
 	</form>
 	<br />
-	<a href="${pageContext.request.contextPath}/serv/logout">Logout</a>
+	<a href="?locale=uk">Українська</a>
+	<br />
+	<a href="?locale=en">English</a>
+	<br/>
+	
+	<a href="${pageContext.request.contextPath}/serv/logout"><fmt:message key="logout" bundle="${lang}"/></a>
 
 </body>
 </html>
