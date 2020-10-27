@@ -13,6 +13,10 @@ import ua.training.model.dao.TestDAO;
 import ua.training.model.entity.Test;
 import ua.training.model.entity.builder.TestBuilder;
 
+/**
+ * This is a DAO for the test entity.
+ *
+ */
 public class JDBCTestDAO implements TestDAO {
 
 	Connection connection;
@@ -24,11 +28,19 @@ public class JDBCTestDAO implements TestDAO {
 	private static final String ASC = "ASC";
 	private static final String DESC = "DESC";
 	
-
+	/**
+	 * Class constructor with a Connection.
+	 * @param connection	a connection to the database.
+	 */
 	public JDBCTestDAO(Connection connection) {
 		this.connection = connection;
 	}
 
+	/**
+	 * Inserts the test into the database using the data from provided test.
+	 * 
+	 * @param test	test to insert.
+	 */
 	@Override
 	public void create(Test test) {
 
@@ -104,6 +116,9 @@ public class JDBCTestDAO implements TestDAO {
 
 	}
 
+	/**
+	 * Returns a list of all tests available in the database.
+	 */
 	@Override
 	public List<Test> findAll() {
 		List<Test> tests = new ArrayList<>();
@@ -143,6 +158,12 @@ public class JDBCTestDAO implements TestDAO {
 		return tests;
 	}
 
+	/**
+	 * Updates the information about the test in the database.
+	 * Uses the name field in the provided test as the reference point.
+	 * 
+	 * @param test	the test to be updated with the new information.
+	 */
 	@Override
 	public void update(Test test) {
 
@@ -225,11 +246,24 @@ public class JDBCTestDAO implements TestDAO {
 
 	}
 
+	/**
+	 * Closes the connection to the database.
+	 */
 	@Override
-	public void close() throws Exception {
-		// TODO Auto-generated method stub
+	public void close() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			LogManager.getLogger(JDBCCertificateDAO.class).warn("Failed to close the connection with the database");
+			throw new RuntimeException(e);
+		}
 	}
 
+	/**
+	 * Returns a test with the provided name.
+	 * 
+	 * @param name the name of the test.
+	 */
 	@Override
 	public Test findByName(String name) {
 		Test test = new Test();
@@ -265,6 +299,11 @@ public class JDBCTestDAO implements TestDAO {
 		return test;
 	}
 
+	/**
+	 * Returns true if the provided name is not taken.
+	 * 
+	 * @param name the name to be checked for availability.
+	 */
 	public boolean checkIfNameAvailable(String name) {
 		ResultSet rs = null;
 
@@ -288,6 +327,12 @@ public class JDBCTestDAO implements TestDAO {
 		}
 	}
 
+	/**
+	 * Deletes the test with the provided name and 
+	 * returns the location field from the database.
+	 * 
+	 *  @param name name of the test to be deleted.
+	 */
 	@Override
 	public String getLocationAndDelete(String name) {
 		ResultSet rs = null;
@@ -331,6 +376,12 @@ public class JDBCTestDAO implements TestDAO {
 		return location;
 	}
 
+	/**
+	 * Returns a list of tests by category and sorted.
+	 * 
+	 * @param category	the category of test to be returned (may be null if tests of all categories are needed).
+	 * @param sortBy	the field by which the tests should be sorted.
+	 */
 	@Override
 	public List<Test> findAllByCategoryAndSorted(String category, String sortBy) {
 		List<Test> tests = new ArrayList<>();
@@ -350,10 +401,12 @@ public class JDBCTestDAO implements TestDAO {
 
 				builder = new TestBuilder(test);
 
-				builder.setName(rs.getString(Constants.NAME)).setDescription(rs.getString(Constants.DESCRIPTION))
-						.setDifficulty(rs.getString(Constants.DIFFICULTY)).setCategory(rs.getString(Constants.CATEGORY))
-						.setTime(rs.getInt(Constants.TIME))
-						.setNumberOfRequests(rs.getInt(Constants.REQUEST_NUMBER));
+				builder.setName(rs.getString(Constants.NAME))
+					   .setDescription(rs.getString(Constants.DESCRIPTION))
+					   .setDifficulty(rs.getString(Constants.DIFFICULTY))
+					   .setCategory(rs.getString(Constants.CATEGORY))
+					   .setTime(rs.getInt(Constants.TIME))
+					   .setNumberOfRequests(rs.getInt(Constants.REQUEST_NUMBER));
 
 				tests.add(test);
 			}
@@ -371,6 +424,13 @@ public class JDBCTestDAO implements TestDAO {
 		return tests;
 	}
 	
+	
+	/**
+	 * Returns a String for the PreparedStatement to the database.
+	 * 
+	 * @param category	the category of test to be returned (may be null if tests of all categories are needed).
+	 * @param sortBy	the field by which the tests should be sorted.
+	 */
 	private String getPreparedStatement (String category, String sortBy) {
 		StringBuilder result = new StringBuilder();
 		
@@ -405,6 +465,11 @@ public class JDBCTestDAO implements TestDAO {
 		return result.toString();
 	}
 
+	/**
+	 * Increments the number of requests of the provided test in the database.
+	 * 
+	 * @param test	test which number of request needs to be incremented.
+	 */
 	@Override
 	public void incrementNumberOfRequests(Test test) {
 		int numberOfRequests = test.getNumberOfRequests();

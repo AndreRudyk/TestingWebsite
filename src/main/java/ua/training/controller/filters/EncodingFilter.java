@@ -9,6 +9,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+/**
+ * This filter sets the encoding of the request and response.
+ *
+ */
 public class EncodingFilter implements Filter {
 	
 	private static final String ENCODING = "UTF-8";

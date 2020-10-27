@@ -21,14 +21,27 @@ import ua.training.model.dao.impl.Constants;
 import ua.training.model.entity.User;
 import ua.training.model.entity.builder.UserBuilder;
 
+/**
+ * Service that serves as a link between the servlet and the database for the user class.
+ */
 public class UserService {
 
 	private DAOFactory daoFactory;
 	
+	/**
+	 * Class constructor.
+	 */
 	public UserService() {
 		this.daoFactory = DAOFactory.getInstance();
 	}
 	
+	/**
+	 * Returns an optional of user that has a provided username and password.
+	 * Returns an empty optional if such a user isn't found.
+	 * 
+	 * @param username	the username of the user
+	 * @param password	the password of the user
+	 */
 	public Optional<User> login(String username, String password) {
 		Optional<User> result = Optional.empty();
 		String encryptedPass = encryptPassword(password);
@@ -42,6 +55,12 @@ public class UserService {
 		return result;
 	}
 
+	/**
+	 * Creates a user from the data provided in the request and insert the data into the database.
+	 * Returns an empty optional if the user already exists.
+	 * 
+	 * @param request HttpServletRequest with the data about the user.
+	 */
 	public Optional<User> register(HttpServletRequest request) {
 		User newUser = new User();
 		UserBuilder builder = new UserBuilder(newUser);
@@ -74,10 +93,16 @@ public class UserService {
 		return optUser;
 	}
 	
+	/**
+	 * Returns an encrypted password using MD5 encryption.
+	 * 
+	 * @param password	password to be encrypted.
+	 */
 	private String encryptPassword(String password) {
 		String encrypted = null;
+		String encryption = "MD5";
 		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
+			MessageDigest md = MessageDigest.getInstance(encryption);
 			md.update(password.getBytes());
 			byte[] digest = md.digest();
 			encrypted = DatatypeConverter.printHexBinary(digest);
@@ -88,6 +113,11 @@ public class UserService {
 		return encrypted;
 	}
 	
+	/**
+	 * Returns an optional of user if the user with the provided username exists in the database.
+	 * 
+	 * @param username	the username of the user to be found.
+	 */
 	public Optional<User> findByUsername (String username) {
 		
 		Optional<User> user = Optional.empty();
@@ -100,6 +130,9 @@ public class UserService {
 		return user;
 	}
 	
+	/**
+	 * Returns a list of all users from the database with the role "user".
+	 */
 	public List<User> findAllUsers(){
 		List<User> users = new ArrayList<>();
 		try (UserDAO userDAO = daoFactory.createUserDAO()) {
@@ -114,6 +147,9 @@ public class UserService {
 		return users;
 	}
 	
+	/**
+	 * Returns a list of all users from the database with the role "admin".
+	 */
 	public List<User> findAllAdmins(){
 		List<User> admins = new ArrayList<>();
 		try (UserDAO userDAO = daoFactory.createUserDAO()) {
@@ -128,6 +164,10 @@ public class UserService {
 		return admins;
 	}
 	
+	/**
+	 * Updates user information based on the data in the request.
+	 * @param request	HttpServletRequest with the data about the user.
+	 */
 	public void updateUser(HttpServletRequest request) {
 		try (UserDAO userDAO = daoFactory.createUserDAO()) {
 			HttpSession session = request.getSession();
@@ -154,15 +194,25 @@ public class UserService {
 		}
 	}
 	
-	public void deleteUser(int id) {
+	/**
+	 * Deletes a user with the provided username if such exists.
+	 * 
+	 * @param username	the username of the user to be deleted.
+	 */
+	public void deleteUser(String username) {
 		try (UserDAO userDAO = daoFactory.createUserDAO()) {
-			userDAO.delete(id);
+			userDAO.deleteByUsername(username);
 		} catch (Exception e) {
-			LogManager.getLogger(UserService.class).fatal("Failed to update the user");
+			LogManager.getLogger(UserService.class).fatal("Failed to delete the user");
 			throw new RuntimeException();
 		}
 	}
 	
+	/**
+	 * Changes the user's role to "admin".
+	 * 
+	 * @param username	the username of the user to be updated.
+	 */
 	public void grantAdminRights(String username) {
 		try (UserDAO userDAO = daoFactory.createUserDAO()) {
 			userDAO.grantAdminRights(username);
@@ -172,6 +222,11 @@ public class UserService {
 		}
 	}
 	
+	/**
+	 * Changes the user's role to "user".
+	 * 
+	 * @param username	the username of the user to be updated.
+	 */
 	public void revokeAdminRights(String username) {
 		try (UserDAO userDAO = daoFactory.createUserDAO()) {
 			userDAO.revokeAdminRights(username);

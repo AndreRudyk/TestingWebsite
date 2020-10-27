@@ -11,6 +11,10 @@ import javax.servlet.http.HttpSessionBindingEvent;
 import ua.training.model.dao.impl.Constants;
 import ua.training.model.entity.Test;
 
+/**
+ * This listener starts the time when the user starts taking a test.
+ *
+ */
 public class TestTimeListener implements HttpSessionAttributeListener {
 
 	private ScheduledExecutorService scheduler;

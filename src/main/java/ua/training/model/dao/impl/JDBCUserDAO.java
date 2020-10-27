@@ -14,14 +14,27 @@ import ua.training.model.dao.UserDAO;
 import ua.training.model.entity.User;
 import ua.training.model.entity.builder.UserBuilder;
 
+/**
+ * This is a DAO for the user entity.
+ *
+ */
 public class JDBCUserDAO implements UserDAO {
 
 	private Connection connection;
 
+	/**
+	 * Class constructor with a Connection.
+	 * @param connection	a connection to the database.
+	 */
 	public JDBCUserDAO(Connection connection) {
 		this.connection = connection;
 	}
 
+	/**
+	 * Inserts the user into the database using the data from provided user.
+	 * 
+	 * @param user	user to insert.
+	 */
 	@Override
 	public void create(User user) {
 
@@ -60,46 +73,27 @@ public class JDBCUserDAO implements UserDAO {
 	@Override
 	public void delete(int id) {
 		
-		try {
-
-			PreparedStatement statement = connection.prepareStatement(DBQueries.DELETE_USER_BY_ID);
-			
-			statement.setString(1, Integer.toString(id));
-
-			connection.setAutoCommit(false);
-			statement.execute();
-			connection.commit();
-			LogManager.getLogger(JDBCUserDAO.class.getName()).info("Deleted user with id " + id);
-			
-		} catch (SQLException e) {
-			LogManager.getLogger(JDBCUserDAO.class).fatal("Failed to delete user");
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				LogManager.getLogger(JDBCUserDAO.class).fatal(e1.getMessage());
-				throw new RuntimeException(e);
-			}
-			throw new RuntimeException(e);
-		} finally {
-			try {
-				connection.setAutoCommit(true);
-			} catch (SQLException e) {
-				LogManager.getLogger(JDBCUserDAO.class).fatal("Connection failed");
-				throw new RuntimeException(e);
-			}
-		}
-
 	}
 
+	/**
+	 * Closes the connection to the database.
+	 */
 	@Override
 	public void close() {
 		try {
 			connection.close();
 		} catch (SQLException e) {
+			LogManager.getLogger(JDBCCertificateDAO.class).warn("Failed to close the connection with the database");
 			throw new RuntimeException(e);
 		}
 	}
 
+	/**
+	 * Updates the information about the user in the database.
+	 * Uses the username in the provided user as the reference point.
+	 * 
+	 * @param user	the user to be updated.
+	 */
 	@Override
 	public void update(User user) {
 		try {
@@ -134,6 +128,10 @@ public class JDBCUserDAO implements UserDAO {
 		}
 	}
 
+	/**
+	 * Returns a list of all users available in the database.
+	 * 
+	 */
 	@Override
 	public List<User> findAll() {
 		
@@ -178,6 +176,13 @@ public class JDBCUserDAO implements UserDAO {
 		return users;
 	}
 	
+	/**
+	 * Returns an optional of user that has a provided username and password.
+	 * Returns an empty optional if such a user isn't found.
+	 * 
+	 * @param username	the username of the user
+	 * @param password	the password of the user
+	 */
 	@Override
 	public Optional<User> findByUsernameAndPassword(String username, String password) {
 		Optional<User> result = Optional.empty();
@@ -195,8 +200,7 @@ public class JDBCUserDAO implements UserDAO {
 				   .setEmail(rs.getString(Constants.EMAIL))
 				   .setFirstname(rs.getString(Constants.FIRSTNAME))
 				   .setLastname(rs.getString(Constants.LASTNAME))
-				   .setTimeCreated(rs.getString(Constants.CREATE_TIME))
-				   .setId(rs.getInt(Constants.ID)); //<-- need to delete this
+				   .setTimeCreated(rs.getString(Constants.CREATE_TIME));
 				
 				result = Optional.of(user);
 			}
@@ -215,6 +219,13 @@ public class JDBCUserDAO implements UserDAO {
 		return result;
 	}
 	
+	
+	/**
+	 * Returns an optional of user with the provided username.
+	 * Returns an empty optional if such a user isn't found.
+	 * 
+	 * @param username	the username of the user
+	 */
 	@Override
 	public Optional<User> findByUsername(String username) {
 		Optional<User> result = Optional.empty();
@@ -246,16 +257,28 @@ public class JDBCUserDAO implements UserDAO {
 		return result;
 	}
 	
+	/**
+	 * Assigns the role of "user" to the user with the provided username.
+	 */
 	@Override
 	public void revokeAdminRights (String username) {
 		changeRights (username, Constants.USER);
 	}
 	
+	/**
+	 * Assigns the role of "admin" to the user with the provided username.
+	 */
 	@Override
 	public void grantAdminRights (String username) {
 		changeRights (username, Constants.ADMIN);
 	}
 	
+	/**
+	 * Changes the role of the user with the provided username.
+	 * 
+	 * @param username	the username of the user to be updated.
+	 * @param newRole	the new role to be assigned to the user.
+	 */
 	private void changeRights (String username, String newRole) {
 		ResultSet rs = null;
 		try {
@@ -300,6 +323,24 @@ public class JDBCUserDAO implements UserDAO {
 				throw new RuntimeException(e);
 			}
 		}
+	}
+	
+	
+	/**
+	 * Deletes a user with the provided username from the database if present.
+	 */
+	public void deleteByUsername (String username) {
+		try {
+			PreparedStatement statement = connection.prepareStatement(DBQueries.DELETE_USER_BY_UNAME);
+			
+			statement.setString(1, username);
+
+			statement.execute();
+			LogManager.getLogger(JDBCUserDAO.class.getName()).info("Deleted user with the username " + username);
+		} catch (SQLException e) {
+			LogManager.getLogger(JDBCUserDAO.class).fatal("Failed to delete user. " + e.getMessage());
+			throw new RuntimeException(e);
+		} 
 	}
 
 }

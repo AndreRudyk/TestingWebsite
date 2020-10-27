@@ -9,4 +9,5 @@ public interface UserDAO extends GenericDAO<User>{
 	public Optional<User> findByUsername (String username);
 	public void grantAdminRights (String username);
 	public void revokeAdminRights (String username);
+	public void deleteByUsername (String username);
 }

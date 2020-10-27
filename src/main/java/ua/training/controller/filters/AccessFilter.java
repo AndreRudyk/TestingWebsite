@@ -14,11 +14,13 @@ import javax.servlet.http.HttpSession;
 import ua.training.model.dao.impl.Constants;
 import ua.training.model.entity.User;
 
+/**
+ * This is a filter that checks if the user is authorized to access the requested page.
+ * If the user isn't authorized, the request is redirected to a corresponding page.
+ *
+ */
 public class AccessFilter implements Filter {
 	
-	private static final String USER = "user";
-	private static final String ADMIN = "admin";
-	private static final String INDEX = "index";
 	private static final String LOGIN = "login";
 	private static final String REGISTRATION = "registration";
 
@@ -41,15 +43,15 @@ public class AccessFilter implements Filter {
 		
         String path = httpRequest.getRequestURI();
         
-        boolean pathContainsUser = path.contains(USER);
+        boolean pathContainsUser = path.contains(Constants.USER);
         
-        boolean pathContainsAdmin = path.contains(ADMIN);
+        boolean pathContainsAdmin = path.contains(Constants.ADMIN);
         
-        boolean pathContainsIndexLoginOrRegistration = path.contains(INDEX) || path.contains(LOGIN) || path.contains(REGISTRATION);
+        boolean pathContainsIndexLoginOrRegistration = path.contains(Constants.INDEX) || path.contains(LOGIN) || path.contains(REGISTRATION);
         
-        boolean roleIsUser = USER.equalsIgnoreCase(role);
+        boolean roleIsUser = Constants.USER.equalsIgnoreCase(role);
         
-        boolean roleIsAdmin = ADMIN.equalsIgnoreCase(role);
+        boolean roleIsAdmin = Constants.ADMIN.equalsIgnoreCase(role);
         
         if (pathContainsUser && !roleIsUser) {
         	request.getRequestDispatcher("/serv/noaccess").forward(request, response);

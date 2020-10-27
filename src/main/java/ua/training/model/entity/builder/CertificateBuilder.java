@@ -2,10 +2,16 @@ package ua.training.model.entity.builder;
 
 import ua.training.model.entity.Certificate;
 
+/**
+ * A builder for the certificate class.
+ */
 public class CertificateBuilder {
 	
 	private Certificate certificate;
 	
+	/**
+	* Class constructor specifying the certificate that this class will build.
+	*/
 	public CertificateBuilder(Certificate certificate) {
 		this.certificate = certificate;
 	}

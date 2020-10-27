@@ -1,11 +1,15 @@
 package ua.training.model.entity;
-
+/**
+ * Represents a certificate that has a reference to a user and a test
+ * and contains the received mark and date of passing the test.
+ */
 public class Certificate {
 	
 	String username;
 	String testName;
 	int mark;
 	String date;
+	
 	public String getUsername() {
 		return username;
 	}

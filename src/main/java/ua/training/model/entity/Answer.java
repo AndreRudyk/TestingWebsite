@@ -1,16 +1,26 @@
 package ua.training.model.entity;
 
+/**
+ * Represents an answer to a question in a test.
+ * It has text, information about its correctness and may have a next answer.
+ */
 public class Answer {
 	
 	private String text;
 	private boolean correct;
 	private Answer nextAnswer;
 	
+	/**
+	* Class constructor specifying the text of the answer and the value of correct field.
+	*/
 	public Answer (String text, boolean correct) {
 		this.text = text;
 		this.correct = correct;
 	}
 	
+	/**
+	* Class constructor specifying the text of the answer.
+	*/
 	public Answer(String text) {
 		this(text, false);
 	}

@@ -20,6 +20,9 @@ import ua.training.model.entity.Question;
 import ua.training.model.entity.Test;
 import ua.training.model.service.TestService;
 
+/**
+ * Represents a test with a list of questions that is adapted for marshalling into XML file.
+ */
 @XmlRootElement(namespace = "ua.trainning.test")
 public class TestXmlAdapter {
 
@@ -28,15 +31,24 @@ public class TestXmlAdapter {
 
 	private List<QuestionXmlAdapter> xmlQuestions;
 
+	/**
+	* Class constructor.
+	*/
 	public TestXmlAdapter() {
 		xmlQuestions = new ArrayList<>();
 	}
 
+	/**
+	* Class constructor with the test that needs to be adapted.
+	*/
 	public TestXmlAdapter(Test test) {
 		this.test = test;
 		this.xmlQuestions = adaptQuestions();
 	}
 
+	/**
+	* Returns a list of adapted questions from the original test.
+	*/
 	private List<QuestionXmlAdapter> adaptQuestions() {
 		List<QuestionXmlAdapter> adaptedQuestions = new ArrayList<>();
 		for (Question question : test.getQuestions()) {
@@ -45,6 +57,11 @@ public class TestXmlAdapter {
 		return adaptedQuestions;
 	}
 
+	/**
+	 * Returns a test from with the questions and answers from this object.
+	 * 
+	 * @param test that will be updated with the new questions and answers.
+	 */
 	public Test reverseToTest(Test test) {
 		Question reversedQuestion;
 		Answer reversedAnswer;
@@ -76,6 +93,10 @@ public class TestXmlAdapter {
 		this.xmlQuestions = questions;
 	}
 
+	/**
+	 * Saves this question and answers from this test adapter into an XML file.
+	 * @param filePath	the path where the file will be stored.
+	 */
 	public void saveToXml(String filePath) {
 		try {
 			JAXBContext context = JAXBContext.newInstance(TestXmlAdapter.class);
@@ -89,6 +110,11 @@ public class TestXmlAdapter {
 
 	}
 
+	/**
+	 * Returns a test from with the questions and answers from the XML file.
+	 * 
+	 * @param test that will be updated with the new questions and answers.
+	 */
 	public Test getFromXml(Test newTest) {
 		try {
 			JAXBContext context = JAXBContext.newInstance(TestXmlAdapter.class);

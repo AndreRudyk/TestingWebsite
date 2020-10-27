@@ -3,10 +3,16 @@ package ua.training.model.entity.builder;
 import ua.training.model.entity.Answer;
 import ua.training.model.entity.Question;
 
+/**
+ * A builder for the question class.
+ */
 public class QuestionBuilder {
 	
 	Question question;
 	
+	/**
+	* Class constructor specifying the question that this class will build.
+	*/
 	public QuestionBuilder (Question question) {
 		this.question = question;
 	}

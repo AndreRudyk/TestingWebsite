@@ -5,10 +5,16 @@ import java.util.List;
 import ua.training.model.entity.Question;
 import ua.training.model.entity.Test;
 
+/**
+ * A builder for the test class.
+ */
 public class TestBuilder {
 	
 	Test test;
 	
+	/**
+	* Class constructor specifying the test that this class will build.
+	*/
 	public TestBuilder(Test test) {
 		this.test = test;
 	}

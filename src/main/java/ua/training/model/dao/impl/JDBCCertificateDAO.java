@@ -11,17 +11,29 @@ import org.apache.logging.log4j.LogManager;
 
 import ua.training.model.dao.CertificateDAO;
 import ua.training.model.entity.Certificate;
-import ua.training.model.entity.Test;
 import ua.training.model.entity.builder.CertificateBuilder;
 
+/**
+ * This is a DAO for the certificate entity.
+ *
+ */
 public class JDBCCertificateDAO implements CertificateDAO{
 	
 	private Connection connection;
-
+	
+	/**
+	 * Class constructor with a Connection.
+	 * @param connection	a connection to the database.
+	 */
 	public JDBCCertificateDAO(Connection connection) {
 		this.connection = connection;
 	}
 
+	/**
+	 * Inserts the certificate into the database using the data from provided certificate.
+	 * 
+	 * @param certificate	certificate to insert.
+	 */
 	@Override
 	public void create(Certificate certificate) {
 		ResultSet rs = null;
@@ -100,6 +112,11 @@ public class JDBCCertificateDAO implements CertificateDAO{
 		
 	}
 	
+	/**
+	 * Returns a list of certificates that are owned by a user with the provided username.
+	 * 
+	 * @param username	the name of the user whose certificate need to be found,
+	 */
 	public List<Certificate> findAllByUsername(String username){
 		List<Certificate> certificates = new ArrayList<>();
 		ResultSet rs = null;
@@ -142,6 +159,10 @@ public class JDBCCertificateDAO implements CertificateDAO{
 		
 	}
 	
+	/**
+	 * Returns the date without the time.
+	 * @param timeStamp	full date from the database.
+	 */
 	private String processDate(String timeStamp) {
 		int startIndex = 0;
 		int endIndex = 11;
@@ -166,17 +187,17 @@ public class JDBCCertificateDAO implements CertificateDAO{
 		
 	}
 
+	/**
+	 * Closes the connection to the database.
+	 */
 	@Override
-	public void close() throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void close() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			LogManager.getLogger(JDBCCertificateDAO.class).warn("Failed to close the connection with the database");
+			throw new RuntimeException(e);
+		}
 	}
-
-	@Override
-	public Test findByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

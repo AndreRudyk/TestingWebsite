@@ -13,6 +13,10 @@ import javax.servlet.http.HttpSession;
 
 import ua.training.model.dao.impl.Constants;
 
+/**
+ * This filter sets the locale of pages according to what the user has chosen. 
+ *
+ */
 public class LocaleFilter implements Filter{
 
 	@Override

@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import ua.training.model.entity.Question;
 
+/**
+ * Represents an question in a test that is adapted for marshalling into XML file.
+ */
 @XmlRootElement (name = "question")
 public class QuestionXmlAdapter {
 
@@ -17,16 +20,22 @@ public class QuestionXmlAdapter {
 	private List<AnswerXmlAdapter> xmlAnswers;
 	
 	/**
-	 * Private no-arg constructor added for marshalling into xml file.
+	 * Private no-arg constructor added for marshalling into XML file.
 	 */
 	private QuestionXmlAdapter () {};
 	
+	/**
+	* Class constructor with the question that needs to be adapted.
+	*/
 	public QuestionXmlAdapter(Question question) {
 		this.question = question;
 		this.xmlQuestionText = question.getText();
 		xmlAnswers = adaptAnswers();
 	}
 	
+	/**
+	* Returns a list of adapted answers from the original question.
+	*/
 	private List<AnswerXmlAdapter> adaptAnswers(){
 		List<AnswerXmlAdapter> adaptedAnswers = new ArrayList<>();
 		question.getAnswers().stream()

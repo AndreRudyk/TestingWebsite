@@ -2,32 +2,68 @@ package ua.training.model.entity;
 
 import java.util.EnumSet;
 
+/**
+ * Represents a user.
+ */
 public class User {
 	
+	/**
+	 * The user's username.
+	 */
 	private String username;
 	
+	/**
+	 * The user's email.
+	 */
 	private String email;
 	
+	/**
+	 * The user's password.
+	 */
 	private String password;
 	
+	/**
+	 * The user's id.
+	 */
 	private int id;
 	
+	/**
+	 * The date when user was created.
+	 */
 	private String timeCreated;
 	
+	/**
+	 * The user's first name.
+	 */
 	private String firstname;
 	
+	/**
+	 * The user's last name.
+	 */
 	private String lastname;
 	
+	/**
+	 * The roles that the  user may have.
+	 */
 	public enum ROLE {
         USER, ADMIN, UNKNOWN
     }
 
+	/**
+	 * The user's role.
+	 */
     private ROLE role;
     
+    /**
+	* Class constructor.
+	*/
     public User() {
     	super();
     }
     
+    /**
+	* Class constructor specifying the username of the use.
+	*/
     public User(String username) {
     	this.username = username;
     }

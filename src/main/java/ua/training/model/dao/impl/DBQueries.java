@@ -11,6 +11,8 @@ public class DBQueries {
 	
 	public static final String DELETE_USER_BY_ID = bundle.getString("delete.by.id");
 	
+	public static final String DELETE_USER_BY_UNAME = bundle.getString("user.deleteByUsername");
+	
 	public static final String SELECT_ALL_USERS_WITH_ROLES = bundle.getString("select.all.users.with.roles");
 	
 	public static final String UPDATE_USER = bundle.getString("user.updateEmailFirstnameLastname");

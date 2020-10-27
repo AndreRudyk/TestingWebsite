@@ -3,6 +3,10 @@ package ua.training.model.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a question in a test.
+ * It may have a link to the first answer.
+ */
 public class Question {
 
 	private static final String TAB = "    ";
@@ -12,10 +16,16 @@ public class Question {
 	private String text;
 	private Answer firstAnswer;
 	
+	/**
+	* Class constructor specifying the text of the question.
+	*/
 	public Question(String text) {
 		this.text = text;
 	}
 	
+	/**
+	* Class constructor specifying the text of the answer and the reference to the first answer.
+	*/
 	public Question(String text, Answer firstAnswer) {
 		this.text = text;
 		this.firstAnswer = firstAnswer;
@@ -27,6 +37,7 @@ public class Question {
 	public void setText(String text) {
 		this.text = text;
 	}
+	
 	public List<Answer> getAnswers() {
 		List<Answer> answers = new ArrayList<>();
 		if (firstAnswer != null) {
@@ -41,8 +52,8 @@ public class Question {
 	}
 	
 	/**
-	 * Sets the first answer in this Question and sets next Answer for every Answer from the list.
-	 * 			If this Question already has Answers assigned, the new Answers will be assigned. 
+	 * Sets the first answer in this question and sets next answer for every answer from the list.
+	 * If this question already has answers assigned, the new answers will be assigned. 
 	 * 	
 	 * @param answers the possible answers to this Question
 	 */
@@ -58,6 +69,10 @@ public class Question {
 		}
 	}
 	
+	/**
+	 * Adds a next answer to the question.
+	 * @param newAnswer	an answer to be added to the question
+	 */
 	public void addAnswer(Answer newAnswer) {
 		if (firstAnswer != null) {
 			Answer currentAnswer = firstAnswer;

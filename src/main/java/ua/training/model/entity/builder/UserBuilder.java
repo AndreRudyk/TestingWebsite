@@ -2,10 +2,16 @@ package ua.training.model.entity.builder;
 
 import ua.training.model.entity.User;
 
+/**
+ * A builder for the user class.
+ */
 public class UserBuilder {
 	
 	private User user;
 	
+	/**
+	* Class constructor specifying the user that this class will build.
+	*/
 	public UserBuilder(User user) {
 		this.user = user;
 	}
