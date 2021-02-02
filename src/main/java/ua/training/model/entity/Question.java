@@ -23,19 +23,8 @@ public class Question {
 		this.text = text;
 	}
 	
-	/**
-	* Class constructor specifying the text of the answer and the reference to the first answer.
-	*/
-	public Question(String text, Answer firstAnswer) {
-		this.text = text;
-		this.firstAnswer = firstAnswer;
-	}
-	
 	public String getText() {
 		return text;
-	}
-	public void setText(String text) {
-		this.text = text;
 	}
 	
 	public List<Answer> getAnswers() {
@@ -49,24 +38,6 @@ public class Question {
 			}
 		}
 		return answers;
-	}
-	
-	/**
-	 * Sets the first answer in this question and sets next answer for every answer from the list.
-	 * If this question already has answers assigned, the new answers will be assigned. 
-	 * 	
-	 * @param answers the possible answers to this Question
-	 */
-	public void setAnswers(List<Answer> answers) {
-		
-		firstAnswer = answers.get(0);
-		
-		Answer currentAnswer = firstAnswer;
-		
-		for (int i = 1; i < answers.size();  i++) {
-			currentAnswer.setNextAnswer(answers.get(i));
-			currentAnswer = currentAnswer.getNextAnswer();
-		}
 	}
 	
 	/**
@@ -91,10 +62,6 @@ public class Question {
 		return firstAnswer;
 	}
 
-	public void setFirstAnswer(Answer firstAnswer) {
-		this.firstAnswer = firstAnswer;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -111,6 +78,5 @@ public class Question {
 		
 		return sb.toString();
 	}
-	
 	
 }

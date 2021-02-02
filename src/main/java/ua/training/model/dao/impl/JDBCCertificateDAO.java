@@ -11,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 
 import ua.training.model.dao.CertificateDAO;
 import ua.training.model.entity.Certificate;
-import ua.training.model.entity.builder.CertificateBuilder;
 
 /**
  * This is a DAO for the certificate entity.
@@ -123,8 +122,6 @@ public class JDBCCertificateDAO implements CertificateDAO{
 
 		Certificate certificate;
 
-		CertificateBuilder builder;
-		
 		try {
 
 			PreparedStatement statement = connection.prepareStatement(DBQueries.FIND_ALL_CERTIFICATES_BY_USERNAME);
@@ -133,14 +130,12 @@ public class JDBCCertificateDAO implements CertificateDAO{
 			rs = statement.executeQuery();
 
 			while (rs.next()) {
-				certificate = new Certificate();
-
-				builder = new CertificateBuilder(certificate);
-				
-				builder.setUsername(username)
-					   .setTestName(rs.getString(Constants.NAME))
-					   .setMark(rs.getInt(Constants.MARK))
-					   .setDate(processDate(rs.getString(Constants.TIME)));
+				certificate = Certificate.builder()
+						.setUsername(username)
+						.setTestName(rs.getString(Constants.NAME))
+						.setMark(rs.getInt(Constants.MARK))
+						.setDate(processDate(rs.getString(Constants.TIME)))
+						.build();
 
 				certificates.add(certificate);
 			}
@@ -167,24 +162,6 @@ public class JDBCCertificateDAO implements CertificateDAO{
 		int startIndex = 0;
 		int endIndex = 11;
 		return timeStamp.substring(startIndex, endIndex);
-	}
-
-	@Override
-	public List<Certificate> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void update(Certificate entity) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/**

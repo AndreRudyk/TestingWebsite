@@ -19,7 +19,7 @@ import ua.training.model.dao.DAOFactory;
 import ua.training.model.dao.UserDAO;
 import ua.training.model.dao.impl.Constants;
 import ua.training.model.entity.User;
-import ua.training.model.entity.builder.UserBuilder;
+import ua.training.model.enums.Role;
 
 /**
  * Service that serves as a link between the servlet and the database for the user class.
@@ -62,9 +62,8 @@ public class UserService {
 	 * @param request HttpServletRequest with the data about the user.
 	 */
 	public Optional<User> register(HttpServletRequest request) {
-		User newUser = new User();
-		UserBuilder builder = new UserBuilder(newUser);
-		Optional<User> optUser = Optional.empty();
+		
+		Optional<User> optUser;
 		
 		String username = request.getParameter(Constants.USERNAME);
 		String encryptedPass = encryptPassword(request.getParameter(Constants.PASSWORD));
@@ -72,12 +71,14 @@ public class UserService {
 		String firstname = request.getParameter(Constants.FIRSTNAME);
 		String lastname = request.getParameter(Constants.LASTNAME);
 		
-		builder.setUsername(username)
-			   .setPassword(encryptedPass)
-			   .setRole(Constants.USER)
-			   .setEmail(email)
-			   .setFirstname(firstname)
-			   .setLastname(lastname);
+		User newUser = User.builder()
+				.username(username)
+				.password(encryptedPass)
+				.role(Role.USER)
+				.email(email)
+				.firstname(firstname)
+				.lastname(lastname)
+				.build();
 		
 		DAOFactory daoFactory = DAOFactory.getInstance();
 

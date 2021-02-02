@@ -22,7 +22,9 @@ public class QuestionXmlAdapter {
 	/**
 	 * Private no-arg constructor added for marshalling into XML file.
 	 */
-	private QuestionXmlAdapter () {};
+	private QuestionXmlAdapter () {
+		//a private constructor
+	}
 	
 	/**
 	* Class constructor with the question that needs to be adapted.

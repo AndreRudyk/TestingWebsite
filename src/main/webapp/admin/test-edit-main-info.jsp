@@ -12,7 +12,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
+		<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 	<title><fmt:message key="test.edit.title" bundle="${lang}"/></title>
 </head>
 <body>
@@ -33,7 +38,7 @@
 					<p><fmt:message key="category.current" bundle="${lang}"/>${sessionScope.test.category}.</p>
 					<p><fmt:message key="category.selectNew" bundle="${lang}"/></p>
 					<select name="category" id="category">
-						<option value="defaul" selected="selected"><fmt:message key="category.dontChange" bundle="${lang}"/></option>
+						<option value="default" selected="selected"><fmt:message key="category.dontChange" bundle="${lang}"/></option>
     					<option value="english"><fmt:message key="category.english" bundle="${lang}"/></option>
     					<option value="history"><fmt:message key="category.history" bundle="${lang}"/></option>
     					<option value="math"><fmt:message key="category.math" bundle="${lang}"/></option>
@@ -46,7 +51,7 @@
 					<p><fmt:message key="difficulty.current" bundle="${lang}"/>${sessionScope.test.difficulty}.</p>
 					<p><fmt:message key="difficulty.selectNew" bundle="${lang}"/></p>
 					<select name="difficulty" id="difficulty">
-						<option value="defaul" selected="selected"><fmt:message key="difficulty.dontChange" bundle="${lang}"/></option>
+						<option value="default" selected="selected"><fmt:message key="difficulty.dontChange" bundle="${lang}"/></option>
     					<option value="easy"><fmt:message key="difficulty.easy" bundle="${lang}"/></option>
     					<option value="medium"><fmt:message key="difficulty.medium" bundle="${lang}"/></option>
     					<option value="hard"><fmt:message key="difficulty.hard" bundle="${lang}"/></option>
@@ -61,7 +66,7 @@
 			<tr>
 				<td></td>
 				<td style="text-align: right"><input class="button"
-					type="submit" value="<fmt:message key="test.edit.questions" bundle="${lang}"/>" formaction="${pageContext.request.contextPath}/serv/edit-question"></td>
+					type="submit" value="<fmt:message key="test.edit.questions" bundle="${lang}"/>" formaction="${pageContext.request.contextPath}/serv/start-edit-test"></td>
 			</tr>
 		</table>
 	</form>

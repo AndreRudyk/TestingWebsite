@@ -36,12 +36,14 @@ import ua.training.controller.command.RegistrationCommand;
 import ua.training.controller.command.RevokeAdminRightsCommand;
 import ua.training.controller.command.SkipQuestionEditCommand;
 import ua.training.controller.command.StartTestCommand;
+import ua.training.controller.command.StartTestEditCommand;
 import ua.training.controller.command.WelcomeCommand;
 
 public class TestingServlet extends HttpServlet{
 	
 	private Map<String, Command> commands = new HashMap<>();
 
+	@Override
     public void init(){
         commands.put("login", new LoginCommand());
         commands.put("registration", new RegistrationCommand());
@@ -59,6 +61,7 @@ public class TestingServlet extends HttpServlet{
         commands.put("add-question", new AddQuestionCommand());
         commands.put("finish-test", new FinishTestCreationCommand());
         commands.put("find-all-tests", new DisplayTestsCommand());
+        commands.put("start-edit-test", new StartTestEditCommand());
         commands.put("edit-test", new EditTestCommand());
         commands.put("delete-test", new DeleteTestCommand());
         commands.put("preview-test", new PreviewTestCommand());
@@ -73,10 +76,12 @@ public class TestingServlet extends HttpServlet{
         commands.put("display-certificates", new DisplayCertificatesCommand());
     }
 
+	@Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     	processRequest(request, response);
     }
 
+	@Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         processRequest(request, response);
     }

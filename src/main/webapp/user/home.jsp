@@ -12,14 +12,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title><fmt:message key="home.title" bundle="${lang}"/></title>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+	<title><fmt:message key="home.title" bundle="${lang}"/></title>
 </head>
 <c:set var = "user" scope = "page" value = "${sessionScope.user}"/>
 <body>
 	<h2><fmt:message key="welcome" bundle="${lang}"/>, ${user.firstname} ${user.lastname}!</h2>
 	<table>
-		<caption><fmt:message key="myinformation" bundle="${lang}"/></caption>
+		<caption style="caption-side: top;"><fmt:message key="myinformation" bundle="${lang}"/></caption>
 		<tr>
 			<td><b><fmt:message key="username" bundle="${lang}"/>:</b></td>
 			<td>${user.username}</td>

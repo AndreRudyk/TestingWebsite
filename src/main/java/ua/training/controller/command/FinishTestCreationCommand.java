@@ -33,7 +33,6 @@ public class FinishTestCreationCommand implements Command {
 		ServletContext context = session.getServletContext();
 		String realContextPath = context.getRealPath("");
 		String downloadPath = realContextPath + DOWNLOAD_DIR;
-		System.out.println(test.getName());
 		String filePath = downloadPath + File.separator + test.getName() + DOT_XML;
 		
 		test.setLocation(filePath);

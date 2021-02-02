@@ -11,7 +11,8 @@ import org.apache.logging.log4j.LogManager;
 
 import ua.training.model.dao.TestDAO;
 import ua.training.model.entity.Test;
-import ua.training.model.entity.builder.TestBuilder;
+import ua.training.model.enums.TestCategory;
+import ua.training.model.enums.TestDifficulty;
 
 /**
  * This is a DAO for the test entity.
@@ -126,21 +127,19 @@ public class JDBCTestDAO implements TestDAO {
 
 		Test test;
 
-		TestBuilder builder;
-
 		try {
 
 			PreparedStatement statement = connection.prepareStatement(DBQueries.FIND_ALL_TESTS);
 			rs = statement.executeQuery();
 
 			while (rs.next()) {
-				test = new Test();
-
-				builder = new TestBuilder(test);
-
-				builder.setName(rs.getString(Constants.NAME)).setDescription(rs.getString(Constants.DESCRIPTION))
-					   .setDifficulty(rs.getString(Constants.DIFFICULTY)).setCategory(rs.getString(Constants.CATEGORY))
-					   .setTime(Integer.parseInt(rs.getString(Constants.TIME)));
+				test = Test.builder()
+						.setName(rs.getString(Constants.NAME))
+						.setDescription(rs.getString(Constants.DESCRIPTION))
+						.setDifficulty(TestDifficulty.valueOf(rs.getString(Constants.DIFFICULTY).toUpperCase()))
+						.setCategory(TestCategory.valueOf(rs.getString(Constants.CATEGORY).toUpperCase()))
+						.setTime(Integer.parseInt(rs.getString(Constants.TIME)))
+						.build();
 
 				tests.add(test);
 			}
@@ -241,11 +240,6 @@ public class JDBCTestDAO implements TestDAO {
 		}
 	}
 
-	@Override
-	public void delete(int id) {
-
-	}
-
 	/**
 	 * Closes the connection to the database.
 	 */
@@ -266,24 +260,25 @@ public class JDBCTestDAO implements TestDAO {
 	 */
 	@Override
 	public Test findByName(String name) {
-		Test test = new Test();
-		TestBuilder builder = new TestBuilder(test);
+		Test test = null;
 		ResultSet rs = null;
 
-		try {
-			PreparedStatement statement = connection
-					.prepareStatement(DBQueries.FIND_TEST_BY_NAME_WITH_CATEGORY_DIFFICULTY);
+		try (PreparedStatement statement = connection.prepareStatement(DBQueries.FIND_TEST_BY_NAME_WITH_CATEGORY_DIFFICULTY)){
 
 			statement.setString(1, name);
 
 			rs = statement.executeQuery();
 
 			if (rs.next()) {
-				builder.setName(rs.getString(Constants.NAME)).setDescription(rs.getString(Constants.DESCRIPTION))
-						.setDifficulty(rs.getString(Constants.DIFFICULTY)).setCategory(rs.getString(Constants.CATEGORY))
+				test = Test.builder()
+						.setName(rs.getString(Constants.NAME))
+						.setDescription(rs.getString(Constants.DESCRIPTION))
+						.setDifficulty(TestDifficulty.valueOf(rs.getString(Constants.DIFFICULTY).toUpperCase()))
+						.setCategory(TestCategory.valueOf(rs.getString(Constants.CATEGORY).toUpperCase()))
 						.setTime(Integer.parseInt(rs.getString(Constants.TIME)))
 						.setLocation(rs.getString(Constants.LOCATION))
-						.setNumberOfRequests(rs.getInt(Constants.REQUEST_NUMBER));
+						.setNumberOfRequests(rs.getInt(Constants.REQUEST_NUMBER))
+						.build();
 			}
 		} catch (SQLException e) {
 			LogManager.getLogger(JDBCTestDAO.class).warn("Connection with database failed");
@@ -307,8 +302,8 @@ public class JDBCTestDAO implements TestDAO {
 	public boolean checkIfNameAvailable(String name) {
 		ResultSet rs = null;
 
-		try {
-			PreparedStatement statement = connection.prepareStatement(DBQueries.FIND_TEST_BY_NAME);
+		try (PreparedStatement statement = connection.prepareStatement(DBQueries.FIND_TEST_BY_NAME)){
+			
 
 			statement.setString(1, name);
 
@@ -389,24 +384,20 @@ public class JDBCTestDAO implements TestDAO {
 
 		Test test;
 
-		TestBuilder builder;
-		
 		try {
 
 			PreparedStatement statement = connection.prepareStatement(getPreparedStatement(category, sortBy));
 			rs = statement.executeQuery();
 
 			while (rs.next()) {
-				test = new Test();
-
-				builder = new TestBuilder(test);
-
-				builder.setName(rs.getString(Constants.NAME))
-					   .setDescription(rs.getString(Constants.DESCRIPTION))
-					   .setDifficulty(rs.getString(Constants.DIFFICULTY))
-					   .setCategory(rs.getString(Constants.CATEGORY))
-					   .setTime(rs.getInt(Constants.TIME))
-					   .setNumberOfRequests(rs.getInt(Constants.REQUEST_NUMBER));
+				test = Test.builder()
+						.setName(rs.getString(Constants.NAME))
+						.setDescription(rs.getString(Constants.DESCRIPTION))
+						.setDifficulty(TestDifficulty.valueOf(rs.getString(Constants.DIFFICULTY).toUpperCase()))
+						.setCategory(TestCategory.valueOf(rs.getString(Constants.CATEGORY).toUpperCase()))
+						.setTime(rs.getInt(Constants.TIME))
+						.setNumberOfRequests(rs.getInt(Constants.REQUEST_NUMBER))
+						.build();
 
 				tests.add(test);
 			}

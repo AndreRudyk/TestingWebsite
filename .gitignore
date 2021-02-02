@@ -7,6 +7,7 @@ ehthumbs_vista.db
 # Eclipse
 .classpath
 .project
+.settings
 
 # Dump file
 *.stackdump

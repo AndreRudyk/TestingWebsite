@@ -18,7 +18,8 @@ import ua.training.model.entity.Answer;
 import ua.training.model.entity.Question;
 import ua.training.model.entity.Test;
 import ua.training.model.entity.adapter.TestXmlAdapter;
-import ua.training.model.entity.builder.TestBuilder;
+import ua.training.model.enums.TestCategory;
+import ua.training.model.enums.TestDifficulty;
 
 /**
  * Service that serves as a link between the servlet and the database for the test class.
@@ -65,16 +66,13 @@ public class TestService {
 	 * @param request	HttpServletRequest with the data about the test.
 	 */
 	public Test createTest(HttpServletRequest request) {
-		Test test = new Test();
-		TestBuilder builder = new TestBuilder(test);
-		
-		builder.setName(request.getParameter(Constants.NAME))
-			   .setDescription(request.getParameter(Constants.DESCRIPTION))
-			   .setDifficulty(request.getParameter(Constants.DIFFICULTY))
-			   .setCategory(request.getParameter(Constants.CATEGORY))
-			   .setTime(Integer.parseInt(request.getParameter(Constants.TIME)));
-		
-		return  test;
+		return Test.builder()
+					.setName(request.getParameter(Constants.NAME))
+					.setDescription(request.getParameter(Constants.DESCRIPTION))
+					.setDifficulty(TestDifficulty.valueOf(request.getParameter(Constants.DIFFICULTY).toUpperCase()))
+					.setCategory(TestCategory.valueOf(request.getParameter(Constants.CATEGORY).toUpperCase()))
+					.setTime(Integer.parseInt(request.getParameter(Constants.TIME)))
+					.build();
 	}
 	
 	/**
@@ -121,7 +119,7 @@ public class TestService {
 		for (int i = 0; i < ANSWERS.length; i++) {
 			answerText = request.getParameter(ANSWERS[i]);
 			isCorrect = (request.getParameter(ANSWERS_CORRECT[i]) != null);
-			if (!answerText.isEmpty()) {
+			if (answerText != null) {
 				answer = new Answer(answerText, isCorrect);
 				answersList[i] = answer;
 			} else {
@@ -355,10 +353,10 @@ public class TestService {
 			test.setTime(Integer.parseInt(newDuration));
 		}
 		if(newCategory != null) {
-			test.setCategory(newCategory);
+			test.setCategory(TestCategory.valueOf(newCategory.toUpperCase()));
 		}
 		if (newDifficulty != null) {
-			test.setDifficulty(newDifficulty);
+			test.setDifficulty(TestDifficulty.valueOf(newDifficulty.toUpperCase()));
 		}
 		return test;
 	}

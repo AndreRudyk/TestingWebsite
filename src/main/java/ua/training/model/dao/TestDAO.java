@@ -11,4 +11,5 @@ public interface TestDAO extends GenericDAO<Test> {
 	public void update(Test test);
 	public List<Test> findAllByCategoryAndSorted(String category, String sortBy);
 	public void incrementNumberOfRequests(Test test);
+	List<Test> findAll();
 }

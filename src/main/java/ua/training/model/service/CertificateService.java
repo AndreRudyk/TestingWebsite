@@ -9,7 +9,6 @@ import ua.training.model.dao.DAOFactory;
 import ua.training.model.entity.Certificate;
 import ua.training.model.entity.Test;
 import ua.training.model.entity.User;
-import ua.training.model.entity.builder.CertificateBuilder;
 
 /**
  * Service that serves as a link between the servlet and the database for the certificate class.
@@ -33,16 +32,15 @@ public class CertificateService {
 	 * @param markthe received mark.
 	 */
 	public void create (User user, Test test, int mark) {
-		Certificate certificate = new Certificate();
-		CertificateBuilder builder = new CertificateBuilder(certificate);
-		
-		builder.setUsername(user.getUsername())
-			   .setTestName(test.getName())
-			   .setMark(mark);
+		Certificate certificate = Certificate.builder()
+				.setUsername(user.getUsername())
+				.setTestName(test.getName())
+				.setMark(mark)
+				.build();
 		try (CertificateDAO certifcateDAO = daoFactory.createCertificateDAO()) {
 			certifcateDAO.create(certificate);
 		} catch (Exception e) {
-			LogManager.getLogger(CertificateService.class).fatal("An error occured. " + e.getMessage());
+			LogManager.getLogger(CertificateService.class).fatal("An error occured. %s", e.getMessage());
 			throw new RuntimeException();
 		}
 		
@@ -55,10 +53,9 @@ public class CertificateService {
 	 */
 	public List<Certificate> findAllByUsername(String username) {
 		try (CertificateDAO certifcateDAO = daoFactory.createCertificateDAO()) {
-			List<Certificate> certificates = certifcateDAO.findAllByUsername(username);
-			return certificates;
+			return certifcateDAO.findAllByUsername(username);
 		} catch (Exception e) {
-			LogManager.getLogger(CertificateService.class).fatal("Couldn't retrieve certificates. " + e.getMessage());
+			LogManager.getLogger(CertificateService.class).fatal(String.format("Couldn't retrieve certificates. %s", e.getMessage()));
 			throw new RuntimeException();
 		}
 	}

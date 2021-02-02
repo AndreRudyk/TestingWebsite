@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 
 import ua.training.model.dao.UserDAO;
 import ua.training.model.entity.User;
-import ua.training.model.entity.builder.UserBuilder;
+import ua.training.model.enums.Role;
 
 /**
  * This is a DAO for the user entity.
@@ -68,11 +68,6 @@ public class JDBCUserDAO implements UserDAO {
 				throw new RuntimeException(e);
 			}
 		}
-	}
-
-	@Override
-	public void delete(int id) {
-		
 	}
 
 	/**
@@ -140,25 +135,21 @@ public class JDBCUserDAO implements UserDAO {
 		
 		User user;
 		
-		UserBuilder builder;
-		
 		try {
 			
 			PreparedStatement statement = connection.prepareStatement(DBQueries.SELECT_ALL_USERS_WITH_ROLES);
 			rs = statement.executeQuery();
 			
 			while (rs.next()) {
-				user = new User();
-				
-				builder = new UserBuilder(user);
-				
-				builder.setUsername(rs.getString(Constants.USERNAME))
-					   .setRole(rs.getString(Constants.ROLE))
-					   .setEmail(rs.getString(Constants.EMAIL))
-					   .setFirstname(rs.getString(Constants.FIRSTNAME))
-					   .setLastname(rs.getString(Constants.LASTNAME))
-					   .setTimeCreated(rs.getString(Constants.CREATE_TIME))
-					   .setId(rs.getInt(Constants.ID)); //<-- need to delete this
+				user = User.builder()
+						.username(rs.getString(Constants.USERNAME))
+						.role(Role.valueOf(rs.getString(Constants.ROLE).toUpperCase()))
+						.email(rs.getString(Constants.EMAIL))
+						.firstname(rs.getString(Constants.FIRSTNAME))
+						.lastname(rs.getString(Constants.LASTNAME))
+						.timeCreated(rs.getString(Constants.CREATE_TIME))
+						.id(rs.getInt(Constants.ID))
+						.build(); 
 					   
 				users.add(user);
 			}
@@ -187,20 +178,21 @@ public class JDBCUserDAO implements UserDAO {
 	public Optional<User> findByUsernameAndPassword(String username, String password) {
 		Optional<User> result = Optional.empty();
 		ResultSet rs = null;
-		User user = new User();
-		UserBuilder builder = new UserBuilder(user);
+		User user;
 		try {
 			PreparedStatement statement = connection.prepareStatement(DBQueries.GET_USER_AND_ROLE_BY_UNAME_AND_PASSWORD);
 			statement.setString(1, username);
 			statement.setString(2, password);
 			rs = statement.executeQuery();
 			if (rs.next()) {
-				builder.setUsername(username)
-				   .setRole(rs.getString(Constants.ROLE))
-				   .setEmail(rs.getString(Constants.EMAIL))
-				   .setFirstname(rs.getString(Constants.FIRSTNAME))
-				   .setLastname(rs.getString(Constants.LASTNAME))
-				   .setTimeCreated(rs.getString(Constants.CREATE_TIME));
+				user = User.builder()
+						.username(username)
+						.role(Role.valueOf(rs.getString(Constants.ROLE).toUpperCase()))
+						.email(rs.getString(Constants.EMAIL))
+						.firstname(rs.getString(Constants.FIRSTNAME))
+						.lastname(rs.getString(Constants.LASTNAME))
+						.timeCreated(rs.getString(Constants.CREATE_TIME))
+						.build();
 				
 				result = Optional.of(user);
 			}
@@ -230,17 +222,18 @@ public class JDBCUserDAO implements UserDAO {
 	public Optional<User> findByUsername(String username) {
 		Optional<User> result = Optional.empty();
 		ResultSet rs = null;
-		User user = new User();
-		UserBuilder builder = new UserBuilder(user);
+		User user;
 		try {
 			PreparedStatement statement = connection.prepareStatement(DBQueries.GET_USER_EMAIL_FIRSTNAME_LASTNAME_BY_UNAME);
 			statement.setString(1, username);
 			rs = statement.executeQuery();
 			if (rs.next()) {
-				builder.setUsername(username)
-				   .setEmail(rs.getString(Constants.EMAIL))
-				   .setFirstname(rs.getString(Constants.FIRSTNAME))
-				   .setLastname(rs.getString(Constants.LASTNAME));
+				user = User.builder()
+						.username(username)
+						.email(rs.getString(Constants.EMAIL))
+						.firstname(rs.getString(Constants.FIRSTNAME))
+						.lastname(rs.getString(Constants.LASTNAME))
+						.build();
 				result = Optional.of(user);
 			}
 		} catch (SQLException e) {

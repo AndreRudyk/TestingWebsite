@@ -1,5 +1,6 @@
 package ua.training.controller.command;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,10 @@ public class SkipQuestionEditCommand implements Command {
 		int index = (int) session.getAttribute(Constants.INDEX);
 
 		List<Question>newQuestions = (List<Question>) session.getAttribute(Constants.NEW_QUESTIONS);
+		
+		if(newQuestions == null) {
+			newQuestions = new ArrayList<Question>();
+		}
 
 		Test test = (Test) session.getAttribute(Constants.TEST);
 		
